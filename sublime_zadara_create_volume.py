@@ -48,7 +48,10 @@ def create_volume(data):
 	result = requests.post(url, json.dumps(data), headers=headers)
 
 	for k,v in result.json().items():
-		if v['status'] != 0:
+		if v['status'] == 10096:
+			result = {"status_code": v['status'], "message": v['message']}
+			return False, False, result
+		elif v['status'] != 0:
 			result = {"status_code": v['status'], "message": v['message']}
 			return True, False, result
 		else:
