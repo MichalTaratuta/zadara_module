@@ -20,10 +20,12 @@ def create_volume(data):
 	result = requests.post(url, json.dumps(data), headers=headers)
 
 	for k,v in result.json().items():
-		if v['message']:
-			return False, False, {"status": v['status'], "message": v['message'], "crap": data}
+		if v['status'] != 0:
+			result = {"status_code": v['status'], "message": v['message']}
+			return True, False, result
 		else:
-			return True, True, {"created": v['vol_name'], "data": data}
+			result = {"status": "SUCCESS", "created": v['vol_name']}
+			return False, True, result
 
 def main():
 	fields = {
@@ -52,6 +54,6 @@ def main():
 	if not is_error:
 		module.exit_json(changed=has_changed, meta=result)
 	else:
-		module.fail_json(msg="Error deleting repo", meta=result)
+		module.fail_json(msg=result)
 if __name__ == '__main__':
 	main()	
