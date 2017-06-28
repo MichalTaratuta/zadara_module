@@ -1,5 +1,33 @@
 #!/usr/bin/python
 
+DOCUMENTATION = '''
+---
+module: zadara_volume
+short_description: Creates and Removes volumes
+'''
+
+EXAMPLES = '''
+- name: Create a volume
+  zadara_volume:
+    zadara_auth_key: "..."
+    vpsa_address: "10.10.10.10"
+    name: "Hello-World"
+    capacity: "50G"
+    block: "yes"
+    pool: "pool-00000001"
+    status: present
+  register: result
+
+- name: Delete a volume
+  zadara_volume:
+    zadara_auth_key: "..."
+    vpsa_address: "10.10.10.10"
+    name: "Hello-World"
+    force: "no"
+    state: absent
+  register: result
+'''
+
 from ansible.module_utils.basic import *
 import requests
 
