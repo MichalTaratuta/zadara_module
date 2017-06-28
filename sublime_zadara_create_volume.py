@@ -31,10 +31,16 @@ EXAMPLES = '''
 from ansible.module_utils.basic import *
 import requests
 
-api_url = "http://10.221.49.1"
-
 def create_volume(data):
+	if data['connection'] == 'secure':
+		api_url_prefix = "https://"
+	else:
+		api_url_prefix = "http://"
+
+	api_url_suffix = data['vpsa_address']
+
 	api_key = data['zadara_auth_key']
+	api_url = "{}{}" . format(api_url_prefix, api_url_suffix)
 
 	del data['state']
 	del data['zadara_auth_key']
