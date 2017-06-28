@@ -39,6 +39,7 @@ def create_volume(data):
 	del data['state']
 	del data['zadara_auth_key']
 	del data['vpsa_address']
+	del data['connection']
 
 	headers = {
 		"Content-Type": "application/json",
@@ -66,6 +67,11 @@ def main():
 		"capacity": {"required": True, "type": "str"},
 		"block": {"required": True, "type": "str"},
 		"pool": {"required": True, "type": "str"},
+		"connection": {
+			"default": "unsecure",
+			"choices": ['secure', 'unsecure'],
+			"type": "str"
+		},
 		"state": {
 			"default": "present",
 			"choices": ['present', 'absent'],
